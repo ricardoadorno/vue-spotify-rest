@@ -1,7 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Navbar from "./components/Navbar.vue";
+import MusicPlayer from "./components/MusicPlayer.vue";
+import Playlists from "./components/Playlists.vue";
+</script>
 
 <template>
-  <h1>Spotify Rest Api</h1>
+  <Navbar />
+  <Playlists />
+  <MusicPlayer />
 </template>
 
 <style scoped></style>

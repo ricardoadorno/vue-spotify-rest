@@ -24,7 +24,7 @@ This is a simple Vue.js app that uses the Spotify API to search for artists, alb
 3. Create a `.env` file in the root directory and add the following variables:
 
 ```
-   VUE_SPOFITY_API_KEY=your_api_key
+   VUE_SPOTIFY_API_KEY=your_api_key
 ```
 
 ## You can see a live demo [here]()
