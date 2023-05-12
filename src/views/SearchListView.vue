@@ -18,7 +18,7 @@ export default {
 
     const handleSearch = () => {
       const searchTerm = formData.inputSearch;
-      const accessToken = this.$store.state.acessToken;
+      const accessToken = localStorage.getItem("acessToken") as string;
 
       getSearchResults(accessToken, searchTerm)
         .then((res) => {

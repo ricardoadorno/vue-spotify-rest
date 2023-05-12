@@ -10,28 +10,24 @@ export default {
     MusicPlayer,
   },
 
-  mounted() {
-    getAcessToken().then((token) => {
-      this.$store.dispatch("setAcessToken", token);
-    });
+  async mounted() {
+    // getAcessToken().then((token) => {
+    //   this.$store.dispatch("setAcessToken", token);
+    // });
+
+    if (localStorage.getItem("acessToken")) {
+      return;
+    }
+
+    const acessToken = await getAcessToken();
+
+    localStorage.setItem("acessToken", acessToken);
   },
 };
 </script>
 
 <template>
   <Navbar />
-
-  <!-- <form @submit.prevent="handleSearch">
-    <input type="text" placeholder="Search for an album" />
-    <input type="submit" value="Search" />
-  </form>
-
-  <ul>
-    <li v-for="album in albumList" :key="album.id">
-      {{ album.name }}
-    </li>
-  </ul> -->
-
   <router-view v-slot="{ Component }">
     <div class="container">
       <component :is="Component" />
@@ -44,6 +40,7 @@ export default {
   max-width: 50vw;
   margin: 2rem auto;
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   place-items: center;
 }

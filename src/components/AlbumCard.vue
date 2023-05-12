@@ -10,7 +10,7 @@ export default {
   },
 
   methods: {
-    handleAlbumClick(id: string) {
+    handleAlbumRoute(id: string) {
       this.$router.push("/album/" + id);
     },
   },
@@ -20,13 +20,13 @@ export default {
 <template>
   <div class="card">
     <img
-      @click="() => handleAlbumClick(album.id)"
+      @click="() => handleAlbumRoute(album.id)"
       :src="album.images[1].url"
       alt="Album Image"
       class="card__img"
     />
     <div class="card__content">
-      <h3 class="card__content-title" @click="() => handleAlbumClick(album.id)">
+      <h3 class="card__content-title" @click="() => handleAlbumRoute(album.id)">
         {{ album.name }}
       </h3>
       <p>Artist's Name: {{ album.artists[0].name }}</p>

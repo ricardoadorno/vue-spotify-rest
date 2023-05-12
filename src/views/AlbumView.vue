@@ -1,40 +1,47 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import getAlbumById from "../utils/fetchers/getAlbumById";
+import SongsList from "../components/SongsList.vue";
 
 export default {
   name: "AlbumView",
+  components: { SongsList },
+
+  data() {
+    return {
+      // TODO fix types
+      albumData: {} as any,
+    };
+  },
+  async mounted() {
+    const route = useRoute();
+    const albumId = route.params.id as string;
+    const acessToken = localStorage.getItem("acessToken") as string;
+
+    this.albumData = await getAlbumById(acessToken, albumId)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
 };
 </script>
 
 <template>
   <div class="header">
-    <img
-      src="http://placehold.it/150x150
-    "
-      alt=""
-      class="album__image"
-    />
+    <img :src="albumData.images?.[1].url" alt="" class="album__image" />
     <div class="header__content">
-      <div class="header__content-title">Album Title</div>
-      <div class="header__content-artist">By Artist Name</div>
+      <div class="header__content-title">{{ albumData.name }}</div>
+
+      <div class="header__content-artist">
+        By {{ albumData.artists?.[0].name }}
+      </div>
     </div>
   </div>
 
-  <div class="album__songs">
-    <div class="album__song__item">
-      <v-icon>fa fa-play</v-icon>
-      <div class="album__song__item__number">1</div>
-      <div class="album__song__item__title">Song Title</div>
-      <div class="album__song__item__duration">3:00</div>
-    </div>
-    <div class="album__song__item">
-      <v-icon>fa fa-play</v-icon>
-      <div class="album__song__item__number">1</div>
-      <div class="album__song__item__title">Song Title</div>
-      <div class="album__song__item__duration">3:00</div>
-    </div>
-  </div>
+  <SongsList :songs="albumData.tracks?.items" />
 </template>
 
 <style scoped lang="scss">
@@ -64,15 +71,23 @@ export default {
   }
 }
 
-.album__song {
+.album__songs {
   display: flex;
+  width: 100%;
   flex-direction: column;
 
   &__item {
     display: flex;
+    justify-content: space-around;
     gap: 4rem;
     padding: 1rem;
     border-bottom: 1px solid #fff;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #686868;
+      cursor: pointer;
+    }
   }
 }
 </style>
