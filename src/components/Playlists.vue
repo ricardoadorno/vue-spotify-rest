@@ -1,12 +1,15 @@
 <script setup lang="ts">
 // fetch playlists from spotify
 async function fetchProfile(): Promise<any> {
-  const result = await fetch("https://api.spotify.com/v1/me", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${import.meta.env.VITE_APP_SPOTIFY_TOKEN}`,
-    },
-  });
+  const result = await fetch(
+    "https://api.spotify.com/v1/albums/4aawyAB9vmqN3uQ7FjRGTy",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_APP_SPOTIFY_TOKEN}`,
+      },
+    }
+  );
 
   return await result.json();
 }
@@ -16,7 +19,7 @@ fetchProfile().then((data) => console.log(data));
 
 <template>
   <main>
-    <h2>Playlist</h2>
+    <h2>Search</h2>
   </main>
 </template>
 
