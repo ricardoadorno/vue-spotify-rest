@@ -2,7 +2,9 @@
 
 <template>
   <nav class="navbar">
-    <h1>Spotify Rest Api</h1>
+    <RouterLink to="/">
+      <h1>Spotify Rest Api</h1>
+    </RouterLink>
 
     <div>By Ricardo Adorno</div>
   </nav>
