@@ -6,4 +6,19 @@ import store from "./store";
 import vuetify from "./utils/plugins/vuetify";
 import router from "./router";
 
-createApp(App).use(router).use(store).use(vuetify).mount("#app");
+import {
+  QueryClient,
+  VueQueryPlugin,
+  VueQueryPluginOptions,
+} from "@tanstack/vue-query";
+const myClient = new QueryClient();
+const vueQueryPluginOptions: VueQueryPluginOptions = {
+  queryClient: myClient,
+};
+
+createApp(App)
+  .use(router)
+  .use(store)
+  .use(VueQueryPlugin, vueQueryPluginOptions)
+  .use(vuetify)
+  .mount("#app");

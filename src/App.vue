@@ -33,8 +33,18 @@ export default {
   </ul> -->
 
   <router-view v-slot="{ Component }">
-    <component :is="Component" />
+    <div class="container">
+      <component :is="Component" />
+    </div>
   </router-view>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  max-width: 50vw;
+  margin: 2rem auto;
+  display: flex;
+  gap: 2rem;
+  place-items: center;
+}
+</style>
