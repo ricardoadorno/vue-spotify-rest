@@ -16,7 +16,7 @@ export default async function searchAlbum(
     limit: "10",
   });
 
-  const album = await fetch(
+  const albumsList = await fetch(
     "https://api.spotify.com/v1/search?" + URLsearch,
     searchParam
   )
@@ -25,5 +25,5 @@ export default async function searchAlbum(
       return data.albums.items;
     });
 
-  return album;
+  return albumsList;
 }

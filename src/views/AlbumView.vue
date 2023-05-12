@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script lang="ts">
+import { useRoute } from "vue-router";
+import getAlbumById from "../utils/fetchers/getAlbumById";
+
+export default {
+  name: "AlbumView",
+};
+</script>
 
 <template>
   <div class="header">

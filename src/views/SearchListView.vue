@@ -1,53 +1,76 @@
 <script lang="ts">
 import getSearchResults from "../utils/fetchers/getSearchResults";
+import AlbumCard from "../components/AlbumCard.vue";
+import { reactive } from "vue";
 
 export default {
   name: "SearchListView",
+  components: {
+    AlbumCard,
+  },
+
   data() {
+    const formData = reactive({
+      inputSearch: "",
+    });
+
+    const albums = [] as any;
+
+    const handleSearch = () => {
+      const searchTerm = formData.inputSearch;
+      const accessToken = this.$store.state.acessToken;
+
+      getSearchResults(accessToken, searchTerm)
+        .then((res) => {
+          this.albums = res;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
     return {
-      searchTerm: "",
-      albums: [],
+      formData,
+      handleSearch,
+      albums,
     };
   },
-  methods: { getSearchResults },
 };
 </script>
 
 <template>
-  <div class="search-form">
-    <input
-      class="search-form__input"
-      v-model="searchTerm"
-      type="text"
-      placeholder="Search for an album"
-    />
-    <button
-      @click="
-        async () => {
-          albums = await getSearchResults(
-            $store.state.acessToken,
-            'searchTerm'
-          );
-        }
-      "
-      class="search-form__btn"
-    >
-      <v-icon>fa fa-search</v-icon>
-    </button>
-  </div>
+  <div class="search">
+    <form class="search-form" @submit.prevent="handleSearch">
+      <input
+        class="search-form__input"
+        type="text"
+        placeholder="Search for an album"
+        v-model="formData.inputSearch"
+      />
+      <button class="search-form__btn">
+        <v-icon>fa fa-search</v-icon>
+      </button>
+    </form>
 
-  <!-- 
     <div class="cards-list">
       <AlbumCard v-for="album in albums" :album="album" />
-    </div> -->
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
 @import "../styles/variables";
 
+.search {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  width: 100%;
+  gap: 2rem;
+}
+
 .search-form {
   display: flex;
-  place-items: center;
   padding: 1rem;
 
   &__input {
