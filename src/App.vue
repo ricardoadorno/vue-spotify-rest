@@ -3,6 +3,13 @@ import Navbar from "./components/Navbar.vue";
 import MusicPlayer from "./components/MusicPlayer.vue";
 import getAcessToken from "./utils/fetchers/getAcessToken";
 
+// TODO solve the problem of acess token store
+// TODO use vue-query
+// TODO type the data
+// TODO fix artists array
+// TODO break down the components more
+//TODO  add styles and animations
+
 export default {
   name: "App",
   components: {
@@ -14,10 +21,6 @@ export default {
     // getAcessToken().then((token) => {
     //   this.$store.dispatch("setAcessToken", token);
     // });
-
-    if (localStorage.getItem("acessToken")) {
-      return;
-    }
 
     const acessToken = await getAcessToken();
 
@@ -33,6 +36,7 @@ export default {
       <component :is="Component" />
     </div>
   </router-view>
+  <MusicPlayer />
 </template>
 
 <style scoped>

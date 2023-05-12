@@ -1,4 +1,6 @@
 <script lang="ts">
+import { formatDate } from "../utils/methods";
+
 export default {
   name: "AlbumCard",
 
@@ -13,6 +15,7 @@ export default {
     handleAlbumRoute(id: string) {
       this.$router.push("/album/" + id);
     },
+    formatDate,
   },
 };
 </script>
@@ -31,7 +34,7 @@ export default {
       </h3>
       <p>Artist's Name: {{ album.artists[0].name }}</p>
 
-      <small>Release Date: {{ album.release_date }}</small>
+      <small>Release Date: {{ formatDate(album.release_date) }}</small>
     </div>
   </div>
 </template>

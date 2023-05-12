@@ -1,6 +1,7 @@
 <script lang="ts">
 import { useRoute } from "vue-router";
 import getSongById from "../utils/fetchers/getSongById";
+import { toMinutes, formatDate, formatArtistArray } from "../utils/methods";
 
 export default {
   name: "SongView",
@@ -9,6 +10,7 @@ export default {
     return {
       // TODO fix types
       songData: {} as any,
+      playerActive: false,
     };
   },
   async mounted() {
@@ -24,37 +26,48 @@ export default {
         console.log(err);
       });
   },
+  methods: {
+    toMinutes,
+    formatDate,
+    formatArtistArray,
+  },
 };
 </script>
 
 <template>
+  <v-icon class="song__back-btn align-self-start" @click="$router.go(-1)">
+    fa fa-arrow-left
+  </v-icon>
   <div class="song">
     <img :src="songData.album?.images[1].url" alt="" class="song__image" />
 
     <div class="song__details">
-      <div class="song__details-title">{{ songData.name }}</div>
+      <!-- <div class="song__details-title">{{ songData?.name }}</div>
       <div class="song__details-text">
-        <!-- Artists: {{ songData.artists[0]?.name }} -->
+        <b>Artist:</b> {{ formatArtistArray(songData?.artists) }}
       </div>
-      <div class="song__details-text">Album: {{ songData.album?.name }}</div>
-      <div class="song__details-text">Duration: {{ songData.duration_ms }}</div>
+
       <div class="song__details-text">
-        Popularity: {{ songData.popularity }}/100
-      </div>
-      <div class="song__details-text">
-        Release Date: {{ songData.release_date }}
+        <b>Album:</b> {{ songData.album.name }}
       </div>
       <div class="song__details-text">
-        Explicit: {{ songData.explicit ? "Yes" : "No" }}
+        <b>Duration:</b> {{ toMinutes(songData.duration_ms) }}
       </div>
-      <!-- <div class="song__details-artist">{{ songData.artists[0]?.name }}</div> -->
-      <button class="song__details-btn" @click="$refs.song.play()">
-        <audio ref="song">
-          <source :src="songData.preview_url" type="audio/mpeg" />
-        </audio>
+      <div class="song__details-text">
+        <b>Popularity:</b> {{ songData.popularity }}/100
+      </div>
+      <div class="song__details-text">
+        <b>Release Date:</b> {{ formatDate(songData.album?.release_date) }}
+      </div>
+      <div class="song__details-text">
+        <b>Explicit:</b> {{ songData.explicit ? "Yes" : "No" }}
+      </div> -->
+
+      <button @click="playerActive = !playerActive" class="song__details-btn">
         <v-icon>fa fa-play</v-icon>
         Play a Demo
       </button>
+      <audio v-if="playerActive" controls :src="songData.preview_url"></audio>
     </div>
   </div>
 </template>
@@ -75,25 +88,37 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.4rem;
 
   &-title {
     font-size: 2rem;
     font-weight: 700;
   }
 
-  &-artist {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-
   &-btn {
+    margin-top: 1rem;
     display: flex;
     gap: 1rem;
     border-radius: 1rem;
     border: 1px solid #ffffff;
     padding: 0.5rem 1rem;
     align-self: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .song {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .song__image {
+    width: 100%;
+  }
+
+  .song__details {
+    width: 100%;
+    align-items: flex-start;
   }
 }
 </style>

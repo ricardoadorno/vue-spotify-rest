@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import getAlbumById from "../utils/fetchers/getAlbumById";
 import SongsList from "../components/SongsList.vue";
+import { formatArtistArray } from "../utils/methods";
 
 export default {
   name: "AlbumView",
@@ -13,6 +14,7 @@ export default {
       albumData: {} as any,
     };
   },
+
   async mounted() {
     const route = useRoute();
     const albumId = route.params.id as string;
@@ -26,18 +28,22 @@ export default {
         console.log(err);
       });
   },
+  methods: {
+    formatArtistArray,
+  },
 };
 </script>
 
 <template>
+  <v-icon class="song__back-btn align-self-start" @click="$router.go(-1)">
+    fa fa-arrow-left
+  </v-icon>
   <div class="header">
     <img :src="albumData.images?.[1].url" alt="" class="album__image" />
     <div class="header__content">
       <div class="header__content-title">{{ albumData.name }}</div>
 
-      <div class="header__content-artist">
-        By {{ albumData.artists?.[0].name }}
-      </div>
+      <!-- <div>By {{ formatArtistArray(albumData.artists) }}</div> -->
     </div>
   </div>
 
@@ -62,11 +68,6 @@ export default {
     &-title {
       font-size: 2rem;
       font-weight: 700;
-    }
-
-    &-artist {
-      font-size: 1.5rem;
-      font-weight: 500;
     }
   }
 }
