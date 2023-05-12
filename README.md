@@ -33,8 +33,8 @@ melhores resultados
 3. Crie um arquivo `.env` na raiz do projeto e adicione a sua chave de API do Spotify:
 
 ```
-   VUE_SPOTIFY_API_KEY=your_api_key
-   VUE_CLIENTE_SECRET=your_client_secret
+   VITE_SPOTIFY_API_KEY=your_api_key
+   VITE_CLIENTE_SECRET=your_client_secret
 ```
 
 ## Você pode ver o projeto rodando em: [https://vue-spotify-rest.vercel.app/](https://vue-spotify-rest.vercel.app/)
