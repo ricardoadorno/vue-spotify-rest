@@ -8,7 +8,7 @@ async function getAcessToken() {
       "grant_type=client_credentials&client_id=" +
       import.meta.env.VITE_SPOTIFY_API_KEY +
       "&client_secret=" +
-      import.meta.env.VITE_CLIENTE_SECRET,
+      import.meta.env.VITE_CLIENT_SECRET,
   };
 
   const tokenData = await fetch(

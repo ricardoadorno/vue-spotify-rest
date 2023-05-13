@@ -21,15 +21,19 @@ Este projeto é uma aplicação web desenvolvida com Vue.js e TypeScript que con
 
 1. Clone este repositório
 2. Instale as dependências com `npm install`
-3. Crie um arquivo `.env` na raiz do projeto e adicione a sua chave de API do Spotify:
+3. Crie um arquivo `.env` na raiz do projeto e adicione as suas chaves de API do Spotify:
 
 ```
-   VITE_SPOTIFY_API_KEY=your_api_key
-   VITE_CLIENTE_SECRET=your_client_secret
+   VITE_SPOTIFY_API_KEY=sua_chave_de_api
+
+   VITE_CLIENT_SECRET=sua_chave_secreta
 ```
 
-## Você pode ver o projeto rodando em: [https://vue-spotify-rest.vercel.app/](https://vue-spotify-rest.vercel.app/)
+4. Rode o projeto com `npm run dev`
+5. Acesse o projeto em `http://localhost:5173`
 
-```
+---
 
-```
+## Você pode ver o projeto rodando em:
+
+[https://vue-spotify-rest.vercel.app/](https://vue-spotify-rest.vercel.app/)
