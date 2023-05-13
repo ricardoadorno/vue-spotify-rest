@@ -12,19 +12,10 @@ Este projeto é uma aplicação web desenvolvida com Vue.js e TypeScript que con
 - Vite (bundler)
 - Vue Router
 - Vuex (state management)
-- Axios (HTTP client)
 - Vue Query (data fetching)
 - Vitest (testing)
 - Vuetify (UI)
 - Font Awesome 5 (icons)
-
-## Cheklist
-
-[] - Buscar álbuns por um termo qualquer e exibir os 10
-melhores resultados
-[] - Acessar as faixas de um álbum
-[] - Ver infos específicas de uma faixa
-[] -
 
 ## Como rodar o projeto
 

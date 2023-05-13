@@ -75,6 +75,7 @@ export default {
 
   @media (max-width: 768px) {
     flex-direction: column;
+    text-align: center;
     gap: 1rem;
   }
 

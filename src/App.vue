@@ -23,7 +23,9 @@ export default {
   <Navbar />
   <router-view v-slot="{ Component }">
     <div class="container">
-      <component :is="Component" />
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
     </div>
   </router-view>
 </template>
@@ -42,5 +44,15 @@ export default {
   @include mobile {
     max-width: 70vw;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

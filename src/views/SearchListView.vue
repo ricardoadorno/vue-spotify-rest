@@ -65,5 +65,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  transition: all 0.4s ease-in-out;
 }
 </style>
