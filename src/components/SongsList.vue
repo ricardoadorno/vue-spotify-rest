@@ -47,6 +47,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import "../styles/global.scss";
+
 .album__songs {
   display: flex;
   width: 100%;
@@ -56,10 +58,16 @@ export default {
 .song {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 4rem;
   padding: 1rem;
   border-bottom: 1px solid #fff;
   transition: background-color 0.2s ease-in-out;
+
+  @include mobile {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
 
   &:hover {
     background-color: #686868;

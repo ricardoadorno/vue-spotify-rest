@@ -29,7 +29,6 @@ export default {
     };
 
     const { isLoading, isError, data, error } = useQueryAlbum();
-
     const albumData = ref(data) as Ref<AlbumTypes>;
 
     return {
@@ -70,8 +69,14 @@ export default {
   gap: 2rem;
   place-items: center;
   padding: 2rem;
-  background-color: #686868;
+  background: linear-gradient(254.06deg, #686868 37.59%, #9f9f9f 93.6%);
+  box-shadow: 3px 7px 4px rgba(0, 0, 0, 0.25);
   border-radius: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
   &__content {
     display: flex;

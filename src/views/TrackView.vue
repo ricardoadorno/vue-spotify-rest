@@ -1,6 +1,5 @@
 <script lang="ts">
 import { ref, Ref } from "vue";
-
 import { useRoute } from "vue-router";
 import getTrackById from "../utils/fetchers/getTrackById";
 import { toMinutes, formatDate, formatArtistArray } from "../utils/helpers";
@@ -68,25 +67,33 @@ export default {
       class="song__image"
     />
 
+    <!-- TODO Find solution like JSX componets: DRY code -->
     <div class="song__details">
       <div class="song__details-title">{{ trackData.name }}</div>
-      <div class="song__details-text">
+      <div>
+        <v-icon class="icon-size text-purple">fa fa-microphone</v-icon>
         <b>Artist:</b> {{ formatArtistArray(trackData.artists) }}
       </div>
 
-      <div class="song__details-text">
-        <b>Album:</b> {{ trackData.album.name }}
+      <div>
+        <v-icon class="icon-size">fa fa-compact-disc</v-icon>
+        <b>Album:</b>
+        {{ trackData.album.name }}
       </div>
-      <div class="song__details-text">
+      <div>
+        <v-icon class="icon-size text-blue">fa fa-music</v-icon>
         <b>Duration:</b> {{ toMinutes(trackData.duration_ms) }}
       </div>
-      <div class="song__details-text">
+      <div>
+        <v-icon class="icon-size text-amber">fa fa-fire</v-icon>
         <b>Popularity:</b> {{ trackData.popularity }}/100
       </div>
-      <div class="song__details-text">
+      <div>
+        <v-icon class="icon-size text-green">fa fa-calendar</v-icon>
         <b>Release Date:</b> {{ formatDate(trackData.album.release_date) }}
       </div>
-      <div class="song__details-text">
+      <div>
+        <v-icon class="icon-size text-red">fa fa-exclamation-circle</v-icon>
         <b>Explicit:</b> {{ trackData.explicit ? "Yes" : "No" }}
       </div>
 
@@ -105,6 +112,11 @@ export default {
   display: flex;
   place-items: center;
   gap: 2rem;
+}
+
+.icon-size {
+  font-size: 1rem;
+  margin-right: 0.5rem;
 }
 
 .song__image {

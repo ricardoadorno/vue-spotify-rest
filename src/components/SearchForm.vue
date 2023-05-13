@@ -3,25 +3,25 @@ export default {
   name: "SearchForm",
 
   props: {
-    handleSearch: Function as () => void,
-    FormData: Object as () => { inputSearch: string },
-  },
-
-  data() {
-    return {
-      props: this.$props,
-    };
+    handleSearch: {
+      type: Function,
+      required: true,
+    },
+    formData: {
+      type: Object as () => { inputSearch: string },
+      required: true,
+    },
   },
 };
 </script>
 
 <template>
-  <form class="search-form" @submit.prevent="props.handleSearch">
+  <form class="search-form" @submit.prevent="handleSearch()">
     <input
       class="search-form__input"
       type="text"
-      placeholder="Search for an album"
-      v-model="props.FormData?.inputSearch"
+      placeholder="Search for an album..."
+      v-model="formData.inputSearch"
     />
     <button class="search-form__btn">
       <v-icon>fa fa-search</v-icon>
@@ -30,14 +30,27 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import "../styles/global.scss";
+
 .search-form {
+  width: 70%;
+  margin: 0 auto;
   display: flex;
-  padding: 1rem;
+
+  @include mobile {
+    width: 100%;
+  }
 
   &__input {
-    background-color: #fff;
+    width: 100%;
+    background-color: #b8b8b8;
     padding: 1rem;
     border-radius: 0.5rem 0 0 0.5rem;
+
+    &::placeholder {
+      color: #272727;
+      font-style: italic;
+    }
   }
 
   &__btn {

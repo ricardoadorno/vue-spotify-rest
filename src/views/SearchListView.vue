@@ -45,7 +45,7 @@ export default {
 
 <template>
   <div class="search">
-    <SearchForm @handleSearch="handleSearch" :formData="formData" />
+    <SearchForm :handleSearch="handleSearch" :formData="formData" />
     <div class="cards-list">
       <AlbumCard v-for="album in albums" :album="album" />
     </div>
@@ -53,8 +53,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../styles/variables";
-
 .search {
   display: flex;
   flex-direction: column;

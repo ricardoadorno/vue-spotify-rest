@@ -2,10 +2,9 @@
 import Navbar from "./components/Navbar.vue";
 import getAcessToken from "./utils/fetchers/getAcessToken";
 
-// TODO solve the problem of acess token store
 // TODO undestand types problems on vue-query
-// TODO break down the components more
 //TODO  add styles and animations
+// TODO adding vuex with player
 
 export default {
   name: "App",
@@ -24,12 +23,14 @@ export default {
   <Navbar />
   <router-view v-slot="{ Component }">
     <div class="container">
-      <components :is="Component" />
+      <component :is="Component" />
     </div>
   </router-view>
 </template>
 
-<style scoped>
+<style lang="scss">
+@import "./styles/global.scss";
+
 .container {
   max-width: 50vw;
   margin: 2rem auto;
@@ -37,5 +38,9 @@ export default {
   flex-direction: column;
   gap: 2rem;
   place-items: center;
+
+  @include mobile {
+    max-width: 70vw;
+  }
 }
 </style>

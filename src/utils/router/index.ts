@@ -5,7 +5,7 @@ import AlbumView from "../../views/AlbumView.vue";
 import TrackView from "../../views/TrackView.vue";
 
 const routes = [
-  { path: "/", component: SearchListView },
+  { path: "/", component: SearchListView, props: true },
   { path: "/album/:id", component: AlbumView },
   { path: "/song/:id", component: TrackView },
 ];

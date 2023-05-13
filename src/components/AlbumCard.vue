@@ -49,6 +49,11 @@ export default {
   padding-bottom: 2rem;
   border-bottom: 1px solid #ccc;
 
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+    flex-direction: column;
+  }
+
   &__img {
     flex: 1;
     width: 100%;
