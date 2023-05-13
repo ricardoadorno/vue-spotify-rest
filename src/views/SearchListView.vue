@@ -47,6 +47,14 @@ export default {
   <div class="search">
     <SearchForm :handleSearch="handleSearch" :formData="formData" />
     <div class="cards-list">
+      <div
+        class="d-flex flex-column align-center"
+        v-if="albums && albums.length === 0"
+      >
+        <h2>Search for any artist or album</h2>
+        <v-icon class="mt-6" size="50"> fas fa-music</v-icon>
+      </div>
+
       <AlbumCard v-for="album in albums" :album="album" />
     </div>
   </div>

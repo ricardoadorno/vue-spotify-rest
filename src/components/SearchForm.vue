@@ -17,11 +17,10 @@ export default {
 
 <template>
   <form class="search-form" @submit.prevent="handleSearch()">
-    <h1>Search for a movie</h1>
     <input
       class="search-form__input"
       type="text"
-      placeholder="Search for an album..."
+      placeholder="Search..."
       v-model="formData.inputSearch"
     />
     <button class="search-form__btn">

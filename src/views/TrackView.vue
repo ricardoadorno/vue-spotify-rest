@@ -1,11 +1,9 @@
 <script lang="ts">
 import { ref, Ref } from "vue";
 import { useRoute } from "vue-router";
-import getTrackById from "../utils/fetchers/getTrackById";
 import { toMinutes, formatDate, formatArtistArray } from "../utils/helpers";
 import { TrackTypes } from "../utils/types";
-
-import { useQuery } from "@tanstack/vue-query";
+import useQueryTrack from "../utils/fetchers/query/useQueryTrack";
 
 export default {
   name: "TrackView",
@@ -17,21 +15,13 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const trackId = route.params.id as string;
-    const acessToken = localStorage.getItem("acessToken") as string;
+    const trackId = route.params.id;
+    const acessToken = localStorage.getItem("acessToken");
 
-    const useQueryTrack = () => {
-      return useQuery({
-        queryKey: ["track", trackId],
-        queryFn: async () => {
-          const response = await getTrackById(acessToken, trackId);
-          return response;
-        },
-        staleTime: Infinity,
-      });
-    };
-
-    const { isLoading, isError, data, error } = useQueryTrack();
+    const { isLoading, isError, data, error } = useQueryTrack(
+      acessToken as string,
+      trackId as string
+    );
 
     const trackData = ref(data) as Ref<TrackTypes>;
 
@@ -50,58 +40,66 @@ export default {
 };
 </script>
 
+<!-- TODO Find solution like JSX componets: DRY code -->
+
 <template>
-  <div v-if="isLoading">
+  <div class="mt-16" v-if="isLoading">
     <v-progress-circular indeterminate :size="80"></v-progress-circular>
   </div>
   <div v-else-if="isError">Error: {{ error }}</div>
+  <div v-else>
+    <v-icon
+      class="song__back-btn align-self-start mb-4"
+      @click="$router.go(-1)"
+    >
+      fa fa-arrow-left
+    </v-icon>
+    <div class="song">
+      <img
+        :src="trackData.album.images[1].url"
+        alt="Album Image"
+        class="song__image"
+      />
 
-  <v-icon class="song__back-btn align-self-start" @click="$router.go(-1)">
-    fa fa-arrow-left
-  </v-icon>
+      <div class="song__details">
+        <div class="song__details-title">{{ trackData.name }}</div>
+        <div>
+          <v-icon class="icon-size text-purple">fa fa-microphone</v-icon>
+          <b>Artist:</b> {{ formatArtistArray(trackData.artists) }}
+        </div>
 
-  <div class="song">
-    <img
-      :src="trackData.album.images[1].url"
-      alt="Album Image"
-      class="song__image"
-    />
+        <div>
+          <v-icon class="icon-size">fa fa-compact-disc</v-icon>
+          <b>Album:</b>
+          {{ trackData.album.name }}
+        </div>
+        <div>
+          <v-icon class="icon-size text-blue">fa fa-music</v-icon>
+          <b>Duration:</b> {{ toMinutes(trackData.duration_ms) }}
+        </div>
+        <div>
+          <v-icon class="icon-size text-amber">fa fa-fire</v-icon>
+          <b>Popularity:</b> {{ trackData.popularity }}/100
+        </div>
+        <div>
+          <v-icon class="icon-size text-green">fa fa-calendar</v-icon>
+          <b>Release Date:</b> {{ formatDate(trackData.album.release_date) }}
+        </div>
+        <div>
+          <v-icon class="icon-size text-red">fa fa-exclamation-circle</v-icon>
+          <b>Explicit:</b> {{ trackData.explicit ? "Yes" : "No" }}
+        </div>
 
-    <!-- TODO Find solution like JSX componets: DRY code -->
-    <div class="song__details">
-      <div class="song__details-title">{{ trackData.name }}</div>
-      <div>
-        <v-icon class="icon-size text-purple">fa fa-microphone</v-icon>
-        <b>Artist:</b> {{ formatArtistArray(trackData.artists) }}
+        <button @click="playerActive = !playerActive" class="song__details-btn">
+          <v-icon>fa fa-play</v-icon>
+          Play a Demo
+        </button>
+        <audio
+          v-if="playerActive"
+          controls
+          :src="trackData.preview_url"
+        ></audio>
       </div>
-
-      <div>
-        <v-icon class="icon-size">fa fa-compact-disc</v-icon>
-        <b>Album:</b>
-        {{ trackData.album.name }}
-      </div>
-      <div>
-        <v-icon class="icon-size text-blue">fa fa-music</v-icon>
-        <b>Duration:</b> {{ toMinutes(trackData.duration_ms) }}
-      </div>
-      <div>
-        <v-icon class="icon-size text-amber">fa fa-fire</v-icon>
-        <b>Popularity:</b> {{ trackData.popularity }}/100
-      </div>
-      <div>
-        <v-icon class="icon-size text-green">fa fa-calendar</v-icon>
-        <b>Release Date:</b> {{ formatDate(trackData.album.release_date) }}
-      </div>
-      <div>
-        <v-icon class="icon-size text-red">fa fa-exclamation-circle</v-icon>
-        <b>Explicit:</b> {{ trackData.explicit ? "Yes" : "No" }}
-      </div>
-
-      <button @click="playerActive = !playerActive" class="song__details-btn">
-        <v-icon>fa fa-play</v-icon>
-        Play a Demo
-      </button>
-      <audio v-if="playerActive" controls :src="trackData.preview_url"></audio>
     </div>
   </div>
 </template>

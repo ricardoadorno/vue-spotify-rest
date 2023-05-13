@@ -1,10 +1,10 @@
 <script lang="ts">
+import { useQuery } from "@tanstack/vue-query";
 import Navbar from "./components/Navbar.vue";
 import getAcessToken from "./utils/fetchers/getAcessToken";
 
-// TODO undestand types problems on vue-query
-//TODO  add styles and animations
 // TODO adding vuex with player
+// TODO do 4 tests
 
 export default {
   name: "App",
@@ -21,9 +21,10 @@ export default {
 
 <template>
   <Navbar />
+
   <router-view v-slot="{ Component }">
     <div class="container">
-      <transition name="fade">
+      <transition name="slide-fade" mode="out-in">
         <component :is="Component" />
       </transition>
     </div>
@@ -46,13 +47,17 @@ export default {
   }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s;
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
 }
 
-.fade-enter,
-.fade-leave-to {
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
   opacity: 0;
 }
 </style>
