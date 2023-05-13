@@ -1,12 +1,13 @@
 <script lang="ts">
-import { formatDate } from "../utils/methods";
+import { formatDate, formatArtistArray } from "../utils/helpers";
+import { AlbumTypes } from "../utils/types";
 
 export default {
   name: "AlbumCard",
 
   props: {
     album: {
-      type: Object,
+      type: Object as () => AlbumTypes,
       required: true,
     },
   },
@@ -16,6 +17,7 @@ export default {
       this.$router.push("/album/" + id);
     },
     formatDate,
+    formatArtistArray,
   },
 };
 </script>
@@ -32,7 +34,7 @@ export default {
       <h3 class="card__content-title" @click="() => handleAlbumRoute(album.id)">
         {{ album.name }}
       </h3>
-      <p>Artist's Name: {{ album.artists[0].name }}</p>
+      <p>Artist's Name: {{ formatArtistArray(album.artists) }}</p>
 
       <small>Release Date: {{ formatDate(album.release_date) }}</small>
     </div>

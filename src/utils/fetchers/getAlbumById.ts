@@ -1,7 +1,4 @@
-export default async function getAlbumById(
-  acessToken: string,
-  albumId: string
-) {
+async function getAlbumById(acessToken: string, albumId: string) {
   const searchParam = {
     method: "GET",
     headers: {
@@ -21,3 +18,5 @@ export default async function getAlbumById(
 
   return album;
 }
+
+export default getAlbumById;

@@ -1,4 +1,4 @@
-export default async function getAcessToken() {
+async function getAcessToken() {
   const fetchParams = {
     method: "POST",
     headers: {
@@ -11,17 +11,19 @@ export default async function getAcessToken() {
       import.meta.env.VITE_CLIENTE_SECRET,
   };
 
-  const token = await fetch(
+  const tokenData = await fetch(
     "https://accounts.spotify.com/api/token",
     fetchParams
   )
     .then((response) => response.json())
     .then((data) => {
-      return data.access_token;
+      return data;
     })
     .catch((error) => {
       console.log(error);
     });
 
-  return token;
+  return tokenData.access_token;
 }
+
+export default getAcessToken;

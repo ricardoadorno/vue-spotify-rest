@@ -1,18 +1,26 @@
 <script lang="ts">
-import { toMinutes } from "../utils/methods";
+import { toMinutes, formatArtistArray } from "../utils/helpers";
+import { AlbumTypes } from "../utils/types";
 
 export default {
   name: "SongsList",
 
   props: {
     songs: {
-      type: Array,
+      type: Array as () => Array<AlbumTypes["tracks"]["items"][0]>,
       required: true,
     },
   },
 
+  setup(props) {
+    return {
+      songs: props.songs,
+    };
+  },
+
   methods: {
     toMinutes,
+    formatArtistArray,
     handleSongRoute(id: string) {
       this.$router.push("/song/" + id);
     },
@@ -29,7 +37,10 @@ export default {
       :key="song.id"
     >
       <div class="song-number">{{ index + 1 }}</div>
-      <div class="song-name">{{ song.name }}</div>
+      <div class="song-name">
+        <b>{{ song.name }}</b>
+      </div>
+      <div class="song-artist">{{ formatArtistArray(song.artists) }}</div>
       <div class="song-duration">{{ toMinutes(song.duration_ms) }}</div>
     </div>
   </div>

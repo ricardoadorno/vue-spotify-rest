@@ -1,12 +1,15 @@
 <script lang="ts">
 import getSearchResults from "../utils/fetchers/getSearchResults";
 import AlbumCard from "../components/AlbumCard.vue";
+import SearchForm from "../components/SearchForm.vue";
 import { reactive } from "vue";
+import { AlbumTypes } from "../utils/types";
 
 export default {
   name: "SearchListView",
   components: {
     AlbumCard,
+    SearchForm,
   },
 
   data() {
@@ -14,11 +17,13 @@ export default {
       inputSearch: "",
     });
 
-    const albums = [] as any;
+    const albums = reactive<AlbumTypes[]>([]);
 
     const handleSearch = () => {
       const searchTerm = formData.inputSearch;
       const accessToken = localStorage.getItem("acessToken") as string;
+
+      if (!searchTerm) return alert("Please enter a search term");
 
       getSearchResults(accessToken, searchTerm)
         .then((res) => {
@@ -40,18 +45,7 @@ export default {
 
 <template>
   <div class="search">
-    <form class="search-form" @submit.prevent="handleSearch">
-      <input
-        class="search-form__input"
-        type="text"
-        placeholder="Search for an album"
-        v-model="formData.inputSearch"
-      />
-      <button class="search-form__btn">
-        <v-icon>fa fa-search</v-icon>
-      </button>
-    </form>
-
+    <SearchForm @handleSearch="handleSearch" :formData="formData" />
     <div class="cards-list">
       <AlbumCard v-for="album in albums" :album="album" />
     </div>
@@ -67,24 +61,6 @@ export default {
   place-items: center;
   width: 100%;
   gap: 2rem;
-}
-
-.search-form {
-  display: flex;
-  padding: 1rem;
-
-  &__input {
-    background-color: #fff;
-    padding: 1rem;
-    border-radius: 0.5rem 0 0 0.5rem;
-  }
-
-  &__btn {
-    border: none;
-    border-radius: 0 0.5rem 0.5rem 0;
-    background-color: $spotify-green;
-    padding: 1rem;
-  }
 }
 
 .cards-list {

@@ -1,32 +1,43 @@
 <script lang="ts">
+import { ref, Ref } from "vue";
 import { useRoute } from "vue-router";
 import getAlbumById from "../utils/fetchers/getAlbumById";
 import SongsList from "../components/SongsList.vue";
-import { formatArtistArray } from "../utils/methods";
+import { formatArtistArray } from "../utils/helpers";
+import { AlbumTypes } from "../utils/types";
+
+import { useQuery } from "@tanstack/vue-query";
 
 export default {
   name: "AlbumView",
   components: { SongsList },
 
-  data() {
-    return {
-      // TODO fix types
-      albumData: {} as any,
-    };
-  },
-
-  async mounted() {
+  setup() {
     const route = useRoute();
     const albumId = route.params.id as string;
     const acessToken = localStorage.getItem("acessToken") as string;
 
-    this.albumData = await getAlbumById(acessToken, albumId)
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
+    const useQueryAlbum = () => {
+      return useQuery({
+        queryKey: ["album", albumId],
+        queryFn: async () => {
+          const response = await getAlbumById(acessToken, albumId);
+          return response;
+        },
+        staleTime: Infinity,
       });
+    };
+
+    const { isLoading, isError, data, error } = useQueryAlbum();
+
+    const albumData = ref(data) as Ref<AlbumTypes>;
+
+    return {
+      isLoading,
+      isError,
+      albumData,
+      error,
+    };
   },
   methods: {
     formatArtistArray,
@@ -35,6 +46,8 @@ export default {
 </script>
 
 <template>
+  <div v-if="isLoading">Loading...</div>
+  <div v-if="isError">Error: {{ error }}</div>
   <v-icon class="song__back-btn align-self-start" @click="$router.go(-1)">
     fa fa-arrow-left
   </v-icon>
@@ -43,11 +56,11 @@ export default {
     <div class="header__content">
       <div class="header__content-title">{{ albumData.name }}</div>
 
-      <!-- <div>By {{ formatArtistArray(albumData.artists) }}</div> -->
+      <div>By {{ formatArtistArray(albumData.artists) }}</div>
     </div>
   </div>
 
-  <SongsList :songs="albumData.tracks?.items" />
+  <SongsList :songs="albumData.tracks.items" />
 </template>
 
 <style scoped lang="scss">

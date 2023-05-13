@@ -2,9 +2,9 @@ import { createApp } from "vue";
 import "./styles/global.scss";
 import App from "./App.vue";
 
-import store from "./store";
+import store from "./utils/store";
 import vuetify from "./utils/plugins/vuetify";
-import router from "./router";
+import router from "./utils/router";
 
 import {
   QueryClient,

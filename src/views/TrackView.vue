@@ -1,30 +1,47 @@
 <script lang="ts">
+import { ref, Ref } from "vue";
+
 import { useRoute } from "vue-router";
-import getSongById from "../utils/fetchers/getSongById";
-import { toMinutes, formatDate, formatArtistArray } from "../utils/methods";
+import getTrackById from "../utils/fetchers/getTrackById";
+import { toMinutes, formatDate, formatArtistArray } from "../utils/helpers";
+import { TrackTypes } from "../utils/types";
+
+import { useQuery } from "@tanstack/vue-query";
 
 export default {
-  name: "SongView",
+  name: "TrackView",
 
   data() {
     return {
-      // TODO fix types
-      songData: {} as any,
       playerActive: false,
     };
   },
-  async mounted() {
+  setup() {
     const route = useRoute();
-    const songId = route.params.id as string;
+    const trackId = route.params.id as string;
     const acessToken = localStorage.getItem("acessToken") as string;
 
-    this.songData = await getSongById(acessToken, songId)
-      .then((res) => {
-        return res;
-      })
-      .catch((err) => {
-        console.log(err);
+    const useQueryTrack = () => {
+      return useQuery({
+        queryKey: ["track", trackId],
+        queryFn: async () => {
+          const response = await getTrackById(acessToken, trackId);
+          return response;
+        },
+        staleTime: Infinity,
       });
+    };
+
+    const { isLoading, isError, data, error } = useQueryTrack();
+
+    const trackData = ref(data) as Ref<TrackTypes>;
+
+    return {
+      isLoading,
+      isError,
+      trackData,
+      error,
+    };
   },
   methods: {
     toMinutes,
@@ -35,39 +52,49 @@ export default {
 </script>
 
 <template>
+  <div v-if="isLoading">
+    <v-progress-circular indeterminate :size="80"></v-progress-circular>
+  </div>
+  <div v-else-if="isError">Error: {{ error }}</div>
+
   <v-icon class="song__back-btn align-self-start" @click="$router.go(-1)">
     fa fa-arrow-left
   </v-icon>
+
   <div class="song">
-    <img :src="songData.album?.images[1].url" alt="" class="song__image" />
+    <img
+      :src="trackData.album.images[1].url"
+      alt="Album Image"
+      class="song__image"
+    />
 
     <div class="song__details">
-      <!-- <div class="song__details-title">{{ songData?.name }}</div>
+      <div class="song__details-title">{{ trackData.name }}</div>
       <div class="song__details-text">
-        <b>Artist:</b> {{ formatArtistArray(songData?.artists) }}
+        <b>Artist:</b> {{ formatArtistArray(trackData.artists) }}
       </div>
 
       <div class="song__details-text">
-        <b>Album:</b> {{ songData.album.name }}
+        <b>Album:</b> {{ trackData.album.name }}
       </div>
       <div class="song__details-text">
-        <b>Duration:</b> {{ toMinutes(songData.duration_ms) }}
+        <b>Duration:</b> {{ toMinutes(trackData.duration_ms) }}
       </div>
       <div class="song__details-text">
-        <b>Popularity:</b> {{ songData.popularity }}/100
+        <b>Popularity:</b> {{ trackData.popularity }}/100
       </div>
       <div class="song__details-text">
-        <b>Release Date:</b> {{ formatDate(songData.album?.release_date) }}
+        <b>Release Date:</b> {{ formatDate(trackData.album.release_date) }}
       </div>
       <div class="song__details-text">
-        <b>Explicit:</b> {{ songData.explicit ? "Yes" : "No" }}
-      </div> -->
+        <b>Explicit:</b> {{ trackData.explicit ? "Yes" : "No" }}
+      </div>
 
       <button @click="playerActive = !playerActive" class="song__details-btn">
         <v-icon>fa fa-play</v-icon>
         Play a Demo
       </button>
-      <audio v-if="playerActive" controls :src="songData.preview_url"></audio>
+      <audio v-if="playerActive" controls :src="trackData.preview_url"></audio>
     </div>
   </div>
 </template>

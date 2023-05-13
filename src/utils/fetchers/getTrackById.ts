@@ -1,6 +1,4 @@
-// TODO reactor to from songs to tracks varible names - Vscode feature
-
-export default async function getSongById(acessToken: string, songId: string) {
+async function getTrackById(acessToken: string, trackId: string) {
   const searchParam = {
     method: "GET",
     headers: {
@@ -9,8 +7,8 @@ export default async function getSongById(acessToken: string, songId: string) {
     },
   };
 
-  const song = await fetch(
-    "https://api.spotify.com/v1/tracks/" + songId,
+  const track = await fetch(
+    "https://api.spotify.com/v1/tracks/" + trackId,
     searchParam
   )
     .then((response) => response.json())
@@ -18,5 +16,7 @@ export default async function getSongById(acessToken: string, songId: string) {
       return data;
     });
 
-  return song;
+  return track;
 }
+
+export default getTrackById;

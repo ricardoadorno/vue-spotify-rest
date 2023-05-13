@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import SearchListView from "../views/SearchListView.vue";
-import AlbumView from "../views/AlbumView.vue";
-import SongView from "../views/SongView.vue";
+import SearchListView from "../../views/SearchListView.vue";
+import AlbumView from "../../views/AlbumView.vue";
+import TrackView from "../../views/TrackView.vue";
 
 const routes = [
   { path: "/", component: SearchListView },
   { path: "/album/:id", component: AlbumView },
-  { path: "/song/:id", component: SongView },
+  { path: "/song/:id", component: TrackView },
 ];
 
 const router = createRouter({

@@ -1,7 +1,4 @@
-export default async function searchAlbum(
-  acessToken: string,
-  searchTerm: string
-) {
+async function searchAlbum(acessToken: string, searchTerm: string) {
   const searchParam = {
     method: "GET",
     headers: {
@@ -27,3 +24,5 @@ export default async function searchAlbum(
 
   return albumsList;
 }
+
+export default searchAlbum;

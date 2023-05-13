@@ -12,14 +12,18 @@ export function formatDate(date: string) {
   return `${day}/${month}/${year}`;
 }
 
-export function formatArtistArray(artists: any) {
+export function formatArtistArray(
+  artists: Array<{
+    name: string;
+  }>
+) {
   let artistString = "";
 
-  artists.map((artist: any, index: number) => {
+  artists.forEach((artist, index) => {
     if (index === artists.length - 1) {
       artistString += artist.name;
     } else {
-      artistString += `${artist.name}, `;
+      artistString += artist.name + ", ";
     }
   });
 
