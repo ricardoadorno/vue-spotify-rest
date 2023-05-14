@@ -8,6 +8,7 @@ const useQueryTrack = (acessToken: string, trackId: string) => {
       const response = await getTrackById(acessToken, trackId);
       return response;
     },
+    cacheTime: 0,
   });
 };
 

@@ -8,11 +8,6 @@ import useQueryTrack from "../utils/fetchers/query/useQueryTrack";
 export default {
   name: "TrackView",
 
-  data() {
-    return {
-      playerActive: false,
-    };
-  },
   setup() {
     const route = useRoute();
     const trackId = route.params.id;
@@ -32,10 +27,18 @@ export default {
       error,
     };
   },
+
   methods: {
     toMinutes,
     formatDate,
     formatArtistArray,
+    async handleTrackPlay(audioUrl: string, trackName: string) {
+      await this.$store.dispatch("closeAudio");
+      this.$store.dispatch("setAudio", {
+        audioUrl,
+        trackName,
+      });
+    },
   },
 };
 </script>
@@ -90,15 +93,14 @@ export default {
           <b>Explicit:</b> {{ trackData.explicit ? "Yes" : "No" }}
         </div>
 
-        <button @click="playerActive = !playerActive" class="song__details-btn">
+        <button
+          v-if="trackData.preview_url"
+          @click="handleTrackPlay(trackData.preview_url, trackData.name)"
+          class="song__details-btn"
+        >
           <v-icon>fa fa-play</v-icon>
           Play a Demo
         </button>
-        <audio
-          v-if="playerActive"
-          controls
-          :src="trackData.preview_url"
-        ></audio>
       </div>
     </div>
   </div>

@@ -3,7 +3,15 @@
 <template>
   <nav class="navbar">
     <RouterLink to="/">
-      <h1>Spotify Rest Api</h1>
+      <h1 class="d-flex align-items-center">
+        <img
+          src="https://img.uxwing.com/wp-content/themes/uxwing/download/brands-social-media/spotify-icon.svg"
+          alt="Logo"
+          width="40"
+          class="mr-3"
+        />
+        Spotify Rest Api
+      </h1>
     </RouterLink>
 
     <div>By Ricardo Adorno</div>
@@ -18,7 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.4rem 1.5rem;
+  padding: 0.8rem 1.5rem;
 }
 
 h1 {
