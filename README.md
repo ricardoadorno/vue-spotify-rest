@@ -33,7 +33,3 @@ Este projeto é uma aplicação web desenvolvida com Vue.js e TypeScript que con
 5. Acesse o projeto em `http://localhost:5173`
 
 ---
-
-## Você pode ver o projeto rodando em:
-
-[https://vue-spotify-rest.vercel.app/](https://vue-spotify-rest.vercel.app/)
