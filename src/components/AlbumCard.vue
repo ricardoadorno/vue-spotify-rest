@@ -42,6 +42,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../styles/variables";
+
 .card {
   display: flex;
   gap: 1rem;
@@ -72,9 +74,11 @@ export default {
   &__content-title {
     font-size: 1.5rem;
     font-weight: bold;
+    transition: color 0.2s ease-in-out;
 
     &:hover {
       text-decoration: underline;
+      color: $spotify-green;
       cursor: pointer;
     }
   }

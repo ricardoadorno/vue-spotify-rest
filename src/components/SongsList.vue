@@ -1,6 +1,6 @@
 <script lang="ts">
 import { toMinutes, formatArtistArray } from "../utils/helpers";
-import { AlbumTypes, TrackItemsTypes } from "../utils/types";
+import { TrackItemsTypes } from "../utils/types";
 
 export default {
   name: "SongsList",
