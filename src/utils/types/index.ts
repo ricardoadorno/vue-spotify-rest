@@ -13,16 +13,18 @@ export type AlbumTypes = {
   }>;
   release_date: string;
   tracks: {
-    items: Array<{
-      id: string;
-      name: string;
-      duration_ms: number;
-      artists: Array<{
-        id: string;
-        name: string;
-      }>;
-    }>;
+    items: TrackItemsTypes[];
   };
+};
+
+export type TrackItemsTypes = {
+  id: string;
+  name: string;
+  duration_ms: number;
+  artists: Array<{
+    id: string;
+    name: string;
+  }>;
 };
 
 export type TrackTypes = {

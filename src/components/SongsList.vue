@@ -1,13 +1,13 @@
 <script lang="ts">
 import { toMinutes, formatArtistArray } from "../utils/helpers";
-import { AlbumTypes } from "../utils/types";
+import { AlbumTypes, TrackItemsTypes } from "../utils/types";
 
 export default {
   name: "SongsList",
 
   props: {
     songs: {
-      type: Array as () => Array<AlbumTypes["tracks"]["items"][0]>,
+      type: Array as () => TrackItemsTypes[],
       required: true,
     },
   },
